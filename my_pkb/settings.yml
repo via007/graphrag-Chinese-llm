@@ -1,0 +1,61 @@
+chunks:
+  overlap: 100
+  size: 1024
+
+cluster_graph:
+  max_cluster_size: 30
+
+community_reports:
+  max_input_length: 2000
+  max_length: 4000
+  model_id: default_chat_model
+
+drift_search:
+  drift_k_followups: 3
+  n_depth: 1
+  primer_folds: 3
+
+embed_text:
+  batch_size: 10
+
+input:
+  base_dir: .\my_pkb
+  file_type: text
+
+models:
+  default_chat_model:
+    api_base: https://open.bigmodel.cn/api/paas/v4  # 可用国内LLM的base_url
+    api_key: sk-123
+    async_mode: threaded
+    concurrent_requests: 5
+    encoding_model: cl100k_base
+    max_tokens: 4000
+    model: glm-4-flash
+    temperature: 0.5
+    type: openai_chat
+  
+  default_embedding_model:
+    api_base: https://api.hunyuan.cloud.tencent.com/v1  # 可用国内LLM的base_url
+    api_key: sk-123
+    async_mode: threaded
+    encoding_model: cl100k_base
+    model: hunyuan-embedding
+    type: openai_embedding
+
+output:
+  base_dir: .\my_pkb\index
+  type: file
+
+reporting:
+  base_dir: .\my_pkb\log
+  type: file
+
+snapshots:
+  embeddings: true
+
+vector_store:
+  default_vector_store:
+    container_name: lancedb_ci
+    db_uri: .\my_pkb\lancedb
+    overwrite: true
+    type: lancedb
