@@ -23,8 +23,8 @@
 
 1. 克隆本项目：
    ```bash
-   git clone https://github.com/your-username/graphrag-chinese.git
-   cd graphrag-chinese
+   git clone https://github.com/via007/graphrag-Chinese-llm.git
+   cd graphrag-Chinese-llm
    ```
 
 2. 安装 Poetry（如果尚未安装）：
