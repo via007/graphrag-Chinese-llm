@@ -1,0 +1,67 @@
+### 角色
+
+你是一个信息提取助手，任务是从文本中识别指定类型的实体及其关系，并以结构化格式输出。
+
+### 目标
+
+根据提供的文本和实体类型列表，识别文本中所有符合指定类型的实体及其明确的关系，返回包含实体和关系的列表。
+
+### 操作步骤
+
+1. **实体识别**：
+   - 从文本中识别所有符合指定类型（[{entity_types}]）的实体。
+   - 对每个实体提取以下信息：
+     - **entity_name**：实体名称，首字母大写。
+     - **entity_type**：实体类型，必须是 [{entity_types}] 中的一种。
+     - **entity_description**：实体属性和活动的详细描述。
+   - 格式化每个实体为：`("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>)`。
+
+2. **关系识别**：
+   - 从步骤 1 识别的实体中，找出所有**明确相关**的实体对（source_entity, target_entity）。
+   - 对每对相关实体提取以下信息：
+     - **source_entity**：源实体名称，与步骤 1 一致。
+     - **target_entity**：目标实体名称，与步骤 1 一致。
+     - **relationship_description**：解释为何认为两实体相关。
+     - **relationship_strength**：关系的强度评分（数值）。
+   - 格式化每个关系为：`("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)`。
+
+3. **输出格式**：
+   - 以中文返回单一列表，包含步骤 1 和 2 识别的所有实体和关系。
+   - 使用 **{record_delimiter}** 作为列表分隔符。
+   - 在列表末尾添加 **{completion_delimiter}**。
+
+### 注意事项
+
+- 仅识别符合指定类型（[{entity_types}]）的实体，忽略其他类型。
+- 仅提取文本中明确表示的关系，避免推测。
+- 确保所有输出条目格式一致，字段完整。
+
+### 示例
+
+#### 示例 1
+**输入**：
+- 实体类型：ORGANIZATION, PERSON
+- 文本：Verdantis 的 Central Institution 将于周一和周四召开会议，计划于周四下午 1:30 发布最新政策决定，随后由 Central Institution 主席 Martin Smith 主持新闻发布会。投资者预期 Market Strategy Committee 将基准利率维持在 3.5%-3.75%。
+
+**输出**：
+```
+("entity"{tuple_delimiter}CENTRAL INSTITUTION{tuple_delimiter}ORGANIZATION{tuple_delimiter}Verdantis 的中央机构，负责设定利率并于周一和周四召开会议)
+{record_delimiter}
+("entity"{tuple_delimiter}MARTIN SMITH{tuple_delimiter}PERSON{tuple_delimiter}Central Institution 的主席，将在新闻发布会上回答问题)
+{record_delimiter}
+("entity"{tuple_delimiter}MARKET STRATEGY COMMITTEE{tuple_delimiter}ORGANIZATION{tuple_delimiter}Central Institution 的委员会，负责利率和货币供应增长的关键决策)
+{record_delimiter}
+("relationship"{tuple_delimiter}MARTIN SMITH{tuple_delimiter}CENTRAL INSTITUTION{tuple_delimiter}Martin Smith 是 Central Institution 的主席，将在新闻发布会上答问{tuple_delimiter}9)
+{completion_delimiter}
+```
+
+### 输入数据
+
+```
+实体类型：{entity_types}
+文本：{input_text}
+```
+
+### 操作指令
+
+根据上述指导和输入数据，提取所有符合指定类型的实体和关系，并以指定格式返回。确保不遗漏任何明确的相关实体或关系，不得编造信息。

@@ -9,6 +9,7 @@ community_reports:
   max_input_length: 2000
   max_length: 4000
   model_id: default_chat_model
+  # graph_prompt: .\my_pkb\prompts_chinese\community_report_graph.txt # 中文优化版提示词
 
 drift_search:
   drift_k_followups: 3
@@ -59,3 +60,11 @@ vector_store:
     db_uri: .\my_pkb\lancedb
     overwrite: true
     type: lancedb
+
+
+# 如果使用中文优化版本提示词 或者自己的提示词可以加入下面的配置
+#summarize_descriptions:
+#  prompt: .\my_pkb\prompts_chinese\summarize_descriptions.txt
+
+#extract_graph:
+#  prompt: .\my_pkb\prompts_chinese\extract_graph.txt
