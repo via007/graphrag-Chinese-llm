@@ -36,12 +36,12 @@ models:
     type: openai_chat
   
   default_embedding_model:
-    api_base: https://api.hunyuan.cloud.tencent.com/v1  # 可用国内LLM的base_url
+    api_base: https://api.hunyuan.cloud.tencent.com/v1  # 可用国内LLM的base_url （如果使用本地部署的模型，请将api_base改为本地部署的模型接口地址）
     api_key: sk-123
     async_mode: threaded
     encoding_model: cl100k_base
     model: hunyuan-embedding
-    type: openai_embedding
+    type: openai_embedding  # 默认使用openai的embedding模型，如果需要使用本地部署的模型，请将type改为my_custom_embedding
 
 output:
   base_dir: .\my_pkb\index

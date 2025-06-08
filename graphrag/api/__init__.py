@@ -7,7 +7,7 @@ WARNING: This API is under development and may undergo changes in future release
 Backwards compatibility is not guaranteed at this time.
 """
 
-from graphrag.api.index import build_index
+from graphrag.api.index1 import build_index
 from graphrag.api.prompt_tune import generate_indexing_prompts
 from graphrag.api.query import (
     basic_search,

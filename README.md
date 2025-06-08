@@ -6,9 +6,12 @@
 
 ## 更新日志
 - **20250423**：优化三个核心提示词，全中文描述，见.\my_pkb\prompts_chinese，具体配置参考.\my_pkb\settings.yml
+- **20250609**：myproject 目录下新增自定义向量模型使用方法，使用过程去掉文件后缀，如_llama。改方法是接入本地部署的向量模型接口。具体模型部署方法可以参考 [llama.cpp](https://github.com/ggml-org/llama.cpp) 开源项目。
+
 
 ## 项目亮点
 
+- **支持本地部署的模型**：向量模型支持用llama.cpp部署的本地接口（注意：使用需修改settings.yml中default_embedding_model的type为my_custom_embedding）
 - **中文友好**：将提示词的输出语言从英文改为中文，便于国内用户理解和使用。
 - **支持国内 LLM**：集成了 DeepSeek、阿里云、腾讯云等国内主流大语言模型接口，方便国内用户调用。
 - **详细中文文档**：提供全面的中文版配置文件说明（参考 `yml参数配置详细说明-中文版.md`），降低学习成本。
