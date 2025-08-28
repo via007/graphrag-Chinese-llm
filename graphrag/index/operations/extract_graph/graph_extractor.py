@@ -6,6 +6,7 @@
 import logging
 import re
 import traceback
+import os
 from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
@@ -22,6 +23,7 @@ from graphrag.prompts.index.extract_graph import (
     GRAPH_EXTRACTION_PROMPT,
     LOOP_PROMPT,
 )
+from graphrag.index.operations.extract_graph.langext import LangExtractor
 
 DEFAULT_TUPLE_DELIMITER = "<|>"
 DEFAULT_RECORD_DELIMITER = "##"
@@ -125,6 +127,7 @@ class GraphExtractor:
             try:
                 # Invoke the entity extraction
                 result = await self._process_document(text, prompt_variables)
+                # result = await self._process_document_lang(text)
                 source_doc_map[doc_index] = text
                 all_records[doc_index] = result
             except Exception as e:
@@ -182,6 +185,15 @@ class GraphExtractor:
 
             if response.output.content != "Y":
                 break
+
+        return results
+
+    @staticmethod
+    async def _process_document_lang(text: str) -> str:
+        api_key = os.getenv("GEMINI_API_KEY")
+        extractor = LangExtractor(api_key=api_key)
+
+        results = await extractor.extract_and_format(text)
 
         return results
 

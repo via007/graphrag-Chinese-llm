@@ -2,16 +2,18 @@
 
 # GraphRAG 中文优化版
 
-本项目基于微软的 [GraphRAG](https://github.com/microsoft/graphrag) 进行改进，旨在更好地适配中文语料环境，优化国内用户的使用体验。通过调整提示词输出语言、集成国内主流大语言模型 (LLM) 接口以及提供详细的中文配置说明，本项目大幅降低了中文用户的使用门槛，同时保留了原项目的核心功能和灵活性。
+本项目基于微软的 [GraphRAG](https://github.com/microsoft/graphrag) 进行改进，旨在更好地适配中文语料环境，优化国内用户的使用体验。同时适配了**Google的实体关系抽取框架** [LangExtract](https://github.com/google/langextract) 。通过调整提示词输出语言、集成国内主流大语言模型 (LLM) 接口以及提供详细的中文配置说明，本项目大幅降低了中文用户的使用门槛，同时保留了原项目的核心功能和灵活性。
 
 ## 更新日志
 - **20250423**：优化三个核心提示词，全中文描述，见.\my_pkb\prompts_chinese，具体配置参考.\my_pkb\settings.yml
 - **20250609**：myproject 目录下新增自定义向量模型使用方法，使用过程去掉文件后缀，如_llama。改方法是接入本地部署的向量模型接口。具体模型部署方法可以参考 [llama.cpp](https://github.com/ggml-org/llama.cpp) 开源项目。
+- **20250828**：新增支持 [LangExtract](https://github.com/google/langextract) ，Google开源项目，可以**提升实体抽取准确率**，从而提高知识图谱质量。代码参考\graphrag\index\operations\extract_graph\langext.py。使用时需要在graph_extractor.py 修改 resultes获取方式。langext.py里的examples 可**根据具体任务进行定义**。注意使用改方法抽取实体时，需要设置环境变量**GEMINI-KEY**，另外还支持openai模型和Ollama本地部署的LLM模型，具体参考 [LangExtract](https://github.com/google/langextract) 
 
 
 ## 项目亮点
 
 - **支持本地部署的模型**：向量模型支持用llama.cpp部署的本地接口（注意：使用需修改settings.yml中default_embedding_model的type为my_custom_embedding）
+- **优化的实体抽取策略**：使用Google 开源项目langextract，大幅度提升效率，降低了tokens消耗量。
 - **中文友好**：将提示词的输出语言从英文改为中文，便于国内用户理解和使用。
 - **支持国内 LLM**：集成了 DeepSeek、阿里云、腾讯云等国内主流大语言模型接口，方便国内用户调用。
 - **详细中文文档**：提供全面的中文版配置文件说明（参考 `yml参数配置详细说明-中文版.md`），降低学习成本。
@@ -123,4 +125,8 @@ poetry run poe query --root ./my_pkb --method local --query "你好"
 ## 致谢
 
 感谢微软 GraphRAG 团队提供的优秀开源项目，以及国内 LLM 提供商（DeepSeek、阿里云、腾讯云等）对本项目的支持。
+
+
+
+特别致谢Google的LangExtract
 
