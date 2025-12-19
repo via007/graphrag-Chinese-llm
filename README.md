@@ -9,6 +9,46 @@
 - **20250609**：myproject 目录下新增自定义向量模型使用方法，使用过程去掉文件后缀，如_llama。改方法是接入本地部署的向量模型接口。具体模型部署方法可以参考 [llama.cpp](https://github.com/ggml-org/llama.cpp) 开源项目。
 - **20250828**：新增支持 [LangExtract](https://github.com/google/langextract) ，Google开源项目，可以**提升实体抽取准确率**，从而提高知识图谱质量。代码参考\graphrag\index\operations\extract_graph\langext.py。使用时需要在graph_extractor.py 修改 resultes获取方式。langext.py里的examples 可**根据具体任务进行定义**。注意使用改方法抽取实体时，需要设置环境变量**GEMINI-KEY**，另外还支持openai模型和Ollama本地部署的LLM模型，具体参考 [LangExtract](https://github.com/google/langextract) 
 
+## 🔧 自定义向量模型使用说明
+
+> **解决常见问题**：如果遇到 `ModuleNotFoundError: No module named 'myproject.custom_embedding'` 错误，请按以下步骤操作。
+
+`myproject` 目录下提供了两个自定义向量模型实现文件：
+- `custom_embedding_llama.py` - 适用于 llama.cpp 部署的本地模型（默认端口 8080）
+- `custom_embedding_local.py` - 适用于自定义 API 接口的本地模型
+
+### 配置步骤
+
+**步骤 1：选择并重命名文件**
+
+根据你的部署方式，将对应文件重命名为 `custom_embedding.py`：
+
+```bash
+# 如果使用 llama.cpp 部署
+cd myproject
+copy custom_embedding_llama.py custom_embedding.py   # Windows
+# 或
+cp custom_embedding_llama.py custom_embedding.py     # Linux/Mac
+
+# 如果使用自定义 API 接口
+copy custom_embedding_local.py custom_embedding.py   # Windows
+```
+
+**步骤 2：修改 settings.yml 配置**
+
+在 `my_pkb/settings.yml` 中修改 `default_embedding_model` 的 `type` 为 `my_custom_embedding`：
+
+```yaml
+models:
+  default_embedding_model:
+    api_base: http://localhost:8080  # 你的本地模型接口地址
+    api_key: sk-xxx                  # 如不需要可留空
+    type: my_custom_embedding        # 关键：使用自定义 embedding
+```
+
+**步骤 3：（可选）修改接口地址**
+
+如果你的本地模型接口地址不是默认的 `http://localhost:8080`，请编辑 `custom_embedding.py` 中的 `API_URL` 变量。
 
 ## 项目亮点
 
